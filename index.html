@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Slideshow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            padding: 0 2rem;
+            animation: slideUp 1s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .nav-dot.active {
+            background: rgba(255, 255, 255, 0.9);
+            transform: scale(1.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .nav-dot:hover {
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(1.1);
+        }
+
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 20;
+        }
+
+        .arrow:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .arrow.prev {
+            left: 2rem;
+        }
+
+        .arrow.next {
+            right: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .arrow {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .arrow.prev {
+                left: 1rem;
+            }
+            
+            .arrow.next {
+                right: 1rem;
+            }
+            
+            .navigation {
+                bottom: 1rem;
+            }
+        }
+
+        .slide-1 {
+            background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+        }
+
+        .slide-2 {
+            background-image: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+        }
+
+        .slide-3 {
+            background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="slideshow-container">
+            <div class="slide slide-1 active"></div>
+            <div class="slide slide-2"></div>
+            <div class="slide slide-3"></div>
+        </div>
+
+        <button class="arrow prev" onclick="changeSlide(-1)">❮</button>
+        <button class="arrow next" onclick="changeSlide(1)">❯</button>
+
+        <div class="hero-content">
+            <h1>Discover Amazing</h1>
+            <p>Experience breathtaking adventures and create unforgettable memories in the world's most stunning destinations</p>
+            <a href="#" class="cta-button">Start Your Journey</a>
+        </div>
+
+        <div class="navigation">
+            <div class="nav-dot active" onclick="currentSlide(1)"></div>
+            <div class="nav-dot" onclick="currentSlide(2)"></div>
+            <div class="nav-dot" onclick="currentSlide(3)"></div>
+        </div>
+    </section>
+
+    <script>
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.nav-dot');
+        let autoSlideTimer;
+
+        function showSlide(index) {
+            // Remove active class from all slides and dots
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+
+            // Normalize index
+            if (index >= slides.length) currentSlideIndex = 0;
+            if (index < 0) currentSlideIndex = slides.length - 1;
+
+            // Add active class to current slide and dot
+            slides[currentSlideIndex].classList.add('active');
+            dots[currentSlideIndex].classList.add('active');
+        }
+
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            showSlide(currentSlideIndex);
+            resetAutoSlide();
+        }
+
+        function currentSlide(index) {
+            currentSlideIndex = index - 1;
+            showSlide(currentSlideIndex);
+            resetAutoSlide();
+        }
+
+        function nextSlide() {
+            currentSlideIndex++;
+            showSlide(currentSlideIndex);
+        }
+
+        function resetAutoSlide() {
+            clearInterval(autoSlideTimer);
+            autoSlideTimer = setInterval(nextSlide, 5000);
+        }
+
+        // Initialize auto-slide
+        autoSlideTimer = setInterval(nextSlide, 5000);
+
+        // Pause auto-slide on hover
+        const heroSection = document.querySelector('.hero');
+        heroSection.addEventListener('mouseenter', () => {
+            clearInterval(autoSlideTimer);
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            resetAutoSlide();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        heroSection.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        heroSection.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    changeSlide(1); // Swipe left - next slide
+                } else {
+                    changeSlide(-1); // Swipe right - previous slide
+                }
+            }
+        }
+    </script>
+</body>
+</html>
